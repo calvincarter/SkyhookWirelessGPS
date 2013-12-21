@@ -11,6 +11,7 @@ import android.app.Activity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 public class MainActivity extends Activity {
 	
@@ -19,6 +20,7 @@ public class MainActivity extends Activity {
     
     Button bt_startGPS;
     TextView tv_location;
+    ToggleButton tog_bt_accuracy;
     
     // My project API Key
     private String _key = "eJwz5DQ0AANDM2POaldzCxdTQ1MTXTNDM1NdE3MnY10LAyMLXSdjRwtXM2cTS2MT01oACvsK2w";
@@ -45,6 +47,7 @@ public class MainActivity extends Activity {
         
         
         tv_location = (TextView) findViewById(R.id.textView1);
+        tog_bt_accuracy = (ToggleButton) findViewById(R.id.toggleButton1);
         bt_startGPS = (Button) findViewById(R.id.button1);
         bt_startGPS.setOnClickListener(handlerButton);
         
@@ -74,8 +77,8 @@ public class MainActivity extends Activity {
     public void startGPS() {
     	final MyWPSLocationCallback callback = new MyWPSLocationCallback(this);    		
         Runnable runnable = new Runnable() {
-
-        	public void run() {
+        	
+        	public void run() {        		
         			/* 
         			Use "_xps.getLocation" if you only want GPS location 1 time
         			there is a function called: handleWPSLocation(WPSLocation location)
@@ -86,25 +89,26 @@ public class MainActivity extends Activity {
         			Note: be sure to comment out "_xps.getPeriodicLocation"
         			*/
         		
-            		//_xps.getLocation(null,
-                    //               WPSStreetAddressLookup.WPS_NO_STREET_ADDRESS_LOOKUP,
-                    //               callback);
-					
-        		
-    	            /*
-    	             * Use "_xps.getPeriodicLocation" function below for multiple GPS requests 
-    	            1. getPeriodicLocation parameters
-    	            2. authentification - use null if your using api key
-    	            3. streetAddressLookup - request street address lookup in addition to latitude/longitude lookup.
-    	            4. period - maximum time in milliseconds between location reports. Note: has to be 5000 or more in order to work. WPS may report location updates more often than the specified period if a new or better location becomes available within a given period.
-    	            5. iterations - number of time a location is to be reported. A value of zero indicates an unlimited number of iterations.
-    	            6. callback - a WPSPeriodicLocationCallback
-    	            
-    	            */
-            		
-    	             _xps.getPeriodicLocation(null,
-                           WPSStreetAddressLookup.WPS_NO_STREET_ADDRESS_LOOKUP,
-                           5000, 0,callback); 
+        			if(tog_bt_accuracy.isChecked()) {
+        				_xps.getLocation(null,
+                                   WPSStreetAddressLookup.WPS_NO_STREET_ADDRESS_LOOKUP,
+                                   callback);
+        			}
+        			else {
+	    	            /*
+	    	             * Use "_xps.getPeriodicLocation" function below for multiple GPS requests 
+	    	            1. getPeriodicLocation parameters
+	    	            2. authentification - use null if your using api key
+	    	            3. streetAddressLookup - request street address lookup in addition to latitude/longitude lookup.
+	    	            4. period - maximum time in milliseconds between location reports. Note: has to be 5000 or more in order to work. WPS may report location updates more often than the specified period if a new or better location becomes available within a given period.
+	    	            5. iterations - number of time a location is to be reported. A value of zero indicates an unlimited number of iterations.
+	    	            6. callback - a WPSPeriodicLocationCallback
+	    	            
+	    	            */
+	    	             _xps.getPeriodicLocation(null,
+	                           WPSStreetAddressLookup.WPS_NO_STREET_ADDRESS_LOOKUP,
+	                           5000, 0,callback); 
+        			}
             	}
         };
         

@@ -14,5 +14,13 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Start GPS Tracker" />
+    
+    <ToggleButton
+        android:id="@+id/toggleButton1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textOn="Accuracy On"
+        android:textOff="Accuracy Off"
+        android:checked="false" />
 
 </LinearLayout>
