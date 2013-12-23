@@ -85,14 +85,20 @@ public class MyWPSLocationCallback implements WPSLocationCallback, WPSPeriodicLo
 		// Bundle the latitude and longitude into a message
 		// Pass the information to handler
 		// handler will display it on UI textbox
-		// This technique is used so we dont freeze the UI main thread
-		Message msg = context.handler.obtainMessage();
-		Bundle bundle = new Bundle();
-		bundle.putDouble("lat", lat);
-		bundle.putDouble("lon", lon);
-		bundle.putInt("count", count);
-        msg.setData(bundle);
-        context.handler.sendMessage(msg);
+		// This technique is used so we dont freeze the UI main thread.
+		
+		// if accuracy toggle is off then get continuation coordinates
+		if(!context.tog_bt_accuracy.isChecked()) {
+			Message msg = context.handler.obtainMessage();
+			Bundle bundle = new Bundle();
+			bundle.putDouble("lat", lat);
+			bundle.putDouble("lon", lon);
+			bundle.putInt("count", count);
+	        msg.setData(bundle);
+	        context.handler.sendMessage(msg);
+	        
+	        return WPSContinuation.WPS_CONTINUE;
+		}
         
         /*
 		Other cool information we can get
@@ -106,9 +112,12 @@ public class MyWPSLocationCallback implements WPSLocationCallback, WPSPeriodicLo
     	Log.e("skykooktest","speed: "+   location.getSpeed()+" bearing (degrees): "+ location.getBearing());
         
         */
-
-        return WPSContinuation.WPS_CONTINUE;
-		//return WPSContinuation.WPS_STOP;  // if we wanted to stop
+		
+		// accuracy toggle is on so we'll need to stop continuation
+		// GPS and try to be more accurate by using the handleWPSLocation function
+		// the handleWPSLocation function gets lat and lon coordinates 1 time
+		// and then resets GPS.
+		return WPSContinuation.WPS_STOP;  // stop
 	}
     
 }

@@ -23,7 +23,7 @@ public class MainActivity extends Activity {
     
     Button bt_startGPS;
     TextView tv_location;
-    ToggleButton tog_bt_accuracy;
+    public ToggleButton tog_bt_accuracy;
     
     // My project API Key
     private String _key = "eJwz5DQ0AANDM2POaldzCxdTQ1MTXTNDM1NdE3MnY10LAyMLXSdjRwtXM2cTS2MT01oACvsK2w";
