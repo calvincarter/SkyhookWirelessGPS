@@ -23,4 +23,10 @@
         android:textOff="Accuracy Off"
         android:checked="false" />
 
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Recommend 'Accuracy On' only if your experiencing problems with steady GPS updates.\nGPS should update every 2-5 seconds" />
+
 </LinearLayout>
